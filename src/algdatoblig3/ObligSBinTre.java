@@ -318,21 +318,40 @@ public String omvendtString(){
   
   public String[] grener()
   {
-      String[] tabell = new String[antall()];
+      int antall = antallBlader(rot,1);
+      System.out.println(antall);
+      System.out.println(bladnodeverdier());
+      String[] tabell = new String[antall];
       Node p = rot;
-      
+      if(rot==null){
+          return tabell;
+      }
+      StringBuilder s = new StringBuilder();
       for(int i=0;i<antall();i++){
-          String verdi = ""+rot.verdi+", ";
-          tabell[i] = verdi;
-          while(nesteInorden(p)!=null){
-              p = nesteInorden(p);
-              if(p.høyre==null && p.venstre==null){
-                  
-              }
+          
+      }
+      return tabell;
+  }
+  
+  public int antallBlader(Node denne,int dybde){
+      int antall =0;
+      if(denne == null){
+          return antall;
+      }
+      antallBlader(denne.venstre,dybde+1);
+      antall++;
+      if(denne.høyre==null && denne.venstre==null){
+          if(nesteInorden(denne)==null){
+              
+              antall++;
+          }
+          else{
+              
+              antall++;
           }
       }
-      
-      return tabell;
+      antallBlader(denne.høyre,dybde+1);
+      return antall;
   }
   
     public void blader(Node denne,int dybde,StringBuilder sb){

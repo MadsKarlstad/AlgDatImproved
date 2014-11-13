@@ -70,7 +70,6 @@ public class Test{
       System.out.println
         ("Oppgave 1c: Antall blir ikke oppdatert!");
     }
-    System.out.println(tre.grener());
     return antallFeil;
 
   }  // slutt på Oppgave 1
