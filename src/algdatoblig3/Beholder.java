@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package algdatoblig3;
-
+//hei
 /*
 * Skrevet av:
 * Mads Myrbakken Karlstad, studentnr: 193949, klasse: HINGDATA13H2AA

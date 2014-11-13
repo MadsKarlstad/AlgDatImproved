@@ -20,9 +20,9 @@ public class Test{
     antallFeil += oppgave2();
     antallFeil += oppgave3();
     antallFeil += oppgave4();
-//    antallFeil += oppgave5();
-//    antallFeil += oppgave6();
-//    antallFeil += oppgave7();
+    antallFeil += oppgave5();
+    antallFeil += oppgave6();
+    antallFeil += oppgave7();
     antallFeil += oppgave8();
 //    antallFeil += oppgave9();
 //    antallFeil += oppgave10();
@@ -70,7 +70,7 @@ public class Test{
       System.out.println
         ("Oppgave 1c: Antall blir ikke oppdatert!");
     }
-
+    System.out.println(tre.grener());
     return antallFeil;
 
   }  // slutt på Oppgave 1
@@ -306,7 +306,6 @@ public class Test{
 
     tre.fjern(6);
     s = tre.toString();
-    System.out.println(tre.toString());
 
     if (!s.equals("[1, 3, 5, 7, 8, 9, 10, 11]"))
     {
@@ -316,7 +315,6 @@ public class Test{
 
     tre.fjern(9);
     s = tre.toString();
-    System.out.println(tre.toString());
 
     if (!s.equals("[1, 3, 5, 7, 8, 10, 11]"))
     {
@@ -326,7 +324,6 @@ public class Test{
 
     tre.fjern(10); tre.fjern(11); tre.fjern(8); tre.fjern(7);
     s = tre.toString();
-    //System.out.println(tre.toString());
 
     if (!s.equals("[1, 3, 5]"))
     {
@@ -420,7 +417,6 @@ public class Test{
     for (int verdi : a) tre.leggInn(verdi);
 
     s = tre.høyreGren();
-    System.out.println(tre.høyreGren());
     if (!s.equals("[3, 8, 4, 7, 5, 6, 6]"))
     {
       antallFeil++;
@@ -452,6 +448,7 @@ public class Test{
       new ObligSBinTre<>(Comparator.naturalOrder());
 
     String[] s = tre.grener();
+
 
     try
     {
