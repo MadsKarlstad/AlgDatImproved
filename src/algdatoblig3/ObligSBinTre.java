@@ -310,52 +310,84 @@ public String omvendtString(){
     return s.toString();
   }
     
-    public void skrivArray(String[] strenger,int lengde){
-        
-        for(int i=0;i<lengde;i++){
-            System.out.println(strenger[i] + " ");
-        }
-        System.out.println();
-    }
-    
-   
-    
-public void printAllPathsToLeaf(Node node, String[] path, int len) {  
-     if ( node == null )  
-         return;  
-  
-     // storing data in array  
-     path[len] = ""+node.verdi;  
-     len++;  
-  
-     if(node.venstre == null && node.høyre == null) {  
-         // leaf node is reached  
-         skrivGren(path,len);  
-         return;  
-     }  
-  
-     printAllPathsToLeaf(node.venstre, path, len);  
-     printAllPathsToLeaf(node.høyre, path, len);  
- }
-
-public String[] skrivGren(String[] strenger,int lengde){
-    int antall = countLeaves(rot);
-    String[] grener = new String[antall];
-    
-    for(int i=0;i<lengde;i++){
-        grener[i]=strenger[i];
-    }
-    return grener;
-}
-
-    
   public String[] grener()
   {
+      int antallblader = countLeaves(rot);
+      String[] tabell = new String[antallblader];
       
-      String[] path = new String[1000];
-      printAllPathsToLeaf(rot, new String[1000],0);
+      String print ="";
       
-      return path;
+      Node p = rot;
+      if(rot==null){
+            return tabell;
+      }
+      if(antall==1){
+          print = "["+p.verdi+"]";
+          tabell[0] = print;
+      }
+      else if(antallblader==1){
+          print+="["+rot.verdi;
+          while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            while(p.høyre!=null){
+            p=p.høyre;
+            print += ", " + p.verdi;
+            }
+          }
+          if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            }
+        }
+          print+="]";
+          tabell[0] = print;
+      }
+      else if(antallblader>1){
+          print+="["+rot.verdi;
+          while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            while(p.høyre!=null){
+            p=p.høyre;
+            print += ", " + p.verdi;
+            }
+          }
+          if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            }
+        }
+          print+="]";
+          tabell[0] = print;
+          tabell[1]=høyreGren();
+          for(int i=2;i<antallblader;i++){
+              Node q = rot;
+              String utskrift="["+q.verdi;
+              while(q.høyre!=null){
+                q=q.høyre;
+                utskrift +=", "+q.verdi;
+
+                while(q.venstre!=null){
+                    q=q.venstre;
+                    utskrift+=", "+q.verdi;
+            }
+        }
+        if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            q=q.venstre;
+            utskrift+=", " + q.verdi;
+            }
+        }
+              
+              utskrift+="]";
+              tabell[i]=utskrift;             
+          } 
+      }
+
+      return tabell;
   }
   
     int countLeaves(Node node){
@@ -397,7 +429,7 @@ public String[] skrivGren(String[] strenger,int lengde){
   }
   
   @Override
-  public Iterator<T> iterator()
+public Iterator<T> iterator()
   {
     return new BladnodeIterator();
   }
@@ -405,30 +437,50 @@ public String[] skrivGren(String[] strenger,int lengde){
   private class BladnodeIterator implements Iterator<T>
   {
     private Node<T> p = rot, q = null;
+    private Deque<Node<T>> stakk = new ArrayDeque<>();
     private boolean removeOK = false;
     
-    private BladnodeIterator()  // konstruktør
+    private BladnodeIterator()// konstruktør
     {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (rot == null) return;
+        alleblader(førsteInorden(p));
     }
     
     @Override
     public boolean hasNext()
     {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+      return !stakk.isEmpty();
     }
     
     @Override
-    public T next()
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public T next() {
+        if (!hasNext()) throw new NoSuchElementException("Ingen verdier!");
+        q=stakk.getFirst();
+        T verdi = stakk.pollFirst().verdi;
+        removeOK=true;
+        return verdi; 
     }
     
     @Override
     public void remove()
     {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+      if(!removeOK)throw new IllegalStateException();
+      if(q!=null){
+          fjern(q.verdi);
+          removeOK=false;
+      }
     }
+    
+    private void alleblader(Node<T> p)   // en hjelpemetode
+  {
+    while (p != null) 
+    {
+      if(p.venstre==null&&p.høyre==null){
+          stakk.add(p);  
+      }
+      p = nesteInorden(p); 
+    }
+  }
 
   } // BladnodeIterator
 
