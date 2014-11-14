@@ -244,13 +244,7 @@ public class ObligSBinTre<T> implements Beholder<T>
       inOrder(denne.høyre,dybde+1,sb);
   }
   
-  public void grener(Node denne,int dybde,StringBuilder sb){
-      if(denne==null){
-          return;
-      }
-      grener(denne.venstre,dybde+1,sb);
-      
-  }
+  
   
   @Override
   public String toString()
@@ -315,44 +309,124 @@ public String omvendtString(){
     s.append("]");
     return s.toString();
   }
-  
+    
+    private void skrivArray(String[] strenger,int lengde){
+        
+        for(int i=0;i<lengde;i++){
+            System.out.println(strenger[i] + " ");
+        }
+        System.out.println();
+    }
+    
+public void printAllRootToLeafPaths(Node node,ArrayList path) 
+{
+    if(node==null)
+    {
+        return;
+    }
+    path.add(node.verdi);
+
+    if(node.venstre==null && node.høyre==null)
+    {
+        System.out.println(path);
+        return;
+    }
+    else
+    {
+        printAllRootToLeafPaths(node.venstre,path);
+        printAllRootToLeafPaths(node.høyre,path);
+    }      
+}
+    
   public String[] grener()
   {
-      int antall = antallBlader(rot,1);
-      System.out.println(antall);
-      System.out.println(bladnodeverdier());
-      String[] tabell = new String[antall];
+int antallblader = countLeaves(rot);
+      String[] tabell = new String[antallblader];
+      
+      String print ="";
+      
       Node p = rot;
       if(rot==null){
-          return tabell;
+            return tabell;
       }
-      StringBuilder s = new StringBuilder();
-      for(int i=0;i<antall();i++){
-          
+      if(antall==1){
+          print = "["+p.verdi+"]";
+          tabell[0] = print;
       }
+      else if(antallblader==1){
+          print+="["+rot.verdi;
+          while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            while(p.høyre!=null){
+            p=p.høyre;
+            print += ", " + p.verdi;
+            }
+          }
+          if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            }
+        }
+          print+="]";
+          tabell[0] = print;
+      }
+      else if(antallblader>1){
+          print+="["+rot.verdi;
+          while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            while(p.høyre!=null){
+            p=p.høyre;
+            print += ", " + p.verdi;
+            }
+          }
+          if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            p=p.venstre;
+            print+=", "+p.verdi;
+            }
+        }
+          print+="]";
+          tabell[0] = print;
+          tabell[1]=høyreGren();
+          for(int i=2;i<antallblader;i++){
+              Node q = rot;
+              String utskrift="["+q.verdi;
+            while(q.høyre!=null){
+                q=q.høyre;
+                utskrift +=", "+q.verdi;
+
+                while(q.venstre!=null){
+                    q=q.venstre;
+                    utskrift+=", "+q.verdi;
+            }
+        }
+        if(rot.venstre!=null&&rot.høyre==null){
+            while(p.venstre!=null){
+            q=q.venstre;
+            utskrift+=", " + q.verdi;
+            }
+        }
+              
+              utskrift+="]";
+              tabell[i]=utskrift;             
+          } 
+      }
+
       return tabell;
   }
   
-  public int antallBlader(Node denne,int dybde){
-      int antall =0;
-      if(denne == null){
-          return antall;
-      }
-      antallBlader(denne.venstre,dybde+1);
-      antall++;
-      if(denne.høyre==null && denne.venstre==null){
-          if(nesteInorden(denne)==null){
-              
-              antall++;
-          }
-          else{
-              
-              antall++;
-          }
-      }
-      antallBlader(denne.høyre,dybde+1);
-      return antall;
-  }
+    int countLeaves(Node node){
+        if( node == null )
+        return 0;
+        if( node.venstre == null && node.høyre == null ) {
+            return 1;
+        } else {
+            return countLeaves(node.venstre) + countLeaves(node.høyre);
+            }
+        }
   
     public void blader(Node denne,int dybde,StringBuilder sb){
       if(denne == null){

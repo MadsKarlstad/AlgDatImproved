@@ -468,7 +468,7 @@ public class Test{
     tre.leggInn(10);
     s = tre.grener();
     String t = Arrays.toString(s);
-
+//    System.out.println(t);
     if (!t.equals("[[10]]"))
     {
       antallFeil++;
@@ -491,7 +491,10 @@ public class Test{
     int[] a = {4,1,6,3,5,8,2,7,9};
     for (int verdi : a) tre.leggInn(verdi);
     s = tre.grener();
-
+    System.out.println("tabell[0]: " + s[0]);
+    System.out.println("tabell[1]: " + s[1]);
+    System.out.println("tabell[2]: " + s[2]);
+    System.out.println("tabell[3]: " + s[3]);
     if (!s[0].equals("[4, 1, 3, 2]") || !s[1].equals("[4, 6, 5]")
       || !s[2].equals("[4, 6, 8, 7]") || !s[3].equals("[4, 6, 8, 9]"))
     {
