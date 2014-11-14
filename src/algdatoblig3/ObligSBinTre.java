@@ -310,7 +310,7 @@ public String omvendtString(){
     return s.toString();
   }
     
-    private void skrivArray(String[] strenger,int lengde){
+    public void skrivArray(String[] strenger,int lengde){
         
         for(int i=0;i<lengde;i++){
             System.out.println(strenger[i] + " ");
@@ -318,104 +318,44 @@ public String omvendtString(){
         System.out.println();
     }
     
-public void printAllRootToLeafPaths(Node node,ArrayList path) 
-{
-    if(node==null)
-    {
-        return;
-    }
-    path.add(node.verdi);
+   
+    
+public void printAllPathsToLeaf(Node node, String[] path, int len) {  
+     if ( node == null )  
+         return;  
+  
+     // storing data in array  
+     path[len] = ""+node.verdi;  
+     len++;  
+  
+     if(node.venstre == null && node.høyre == null) {  
+         // leaf node is reached  
+         skrivGren(path,len);  
+         return;  
+     }  
+  
+     printAllPathsToLeaf(node.venstre, path, len);  
+     printAllPathsToLeaf(node.høyre, path, len);  
+ }
 
-    if(node.venstre==null && node.høyre==null)
-    {
-        System.out.println(path);
-        return;
+public String[] skrivGren(String[] strenger,int lengde){
+    int antall = countLeaves(rot);
+    String[] grener = new String[antall];
+    
+    for(int i=0;i<lengde;i++){
+        grener[i]=strenger[i];
     }
-    else
-    {
-        printAllRootToLeafPaths(node.venstre,path);
-        printAllRootToLeafPaths(node.høyre,path);
-    }      
+    return grener;
 }
+
     
   public String[] grener()
   {
-int antallblader = countLeaves(rot);
-      String[] tabell = new String[antallblader];
       
-      String print ="";
+      String[] path = new String[1000];
+      printAllPathsToLeaf(rot, new String[1000],0);
       
-      Node p = rot;
-      if(rot==null){
-            return tabell;
-      }
-      if(antall==1){
-          print = "["+p.verdi+"]";
-          tabell[0] = print;
-      }
-      else if(antallblader==1){
-          print+="["+rot.verdi;
-          while(p.venstre!=null){
-            p=p.venstre;
-            print+=", "+p.verdi;
-            while(p.høyre!=null){
-            p=p.høyre;
-            print += ", " + p.verdi;
-            }
-          }
-          if(rot.venstre!=null&&rot.høyre==null){
-            while(p.venstre!=null){
-            p=p.venstre;
-            print+=", "+p.verdi;
-            }
-        }
-          print+="]";
-          tabell[0] = print;
-      }
-      else if(antallblader>1){
-          print+="["+rot.verdi;
-          while(p.venstre!=null){
-            p=p.venstre;
-            print+=", "+p.verdi;
-            while(p.høyre!=null){
-            p=p.høyre;
-            print += ", " + p.verdi;
-            }
-          }
-          if(rot.venstre!=null&&rot.høyre==null){
-            while(p.venstre!=null){
-            p=p.venstre;
-            print+=", "+p.verdi;
-            }
-        }
-          print+="]";
-          tabell[0] = print;
-          tabell[1]=høyreGren();
-          for(int i=2;i<antallblader;i++){
-              Node q = rot;
-              String utskrift="["+q.verdi;
-            while(q.høyre!=null){
-                q=q.høyre;
-                utskrift +=", "+q.verdi;
-
-                while(q.venstre!=null){
-                    q=q.venstre;
-                    utskrift+=", "+q.verdi;
-            }
-        }
-        if(rot.venstre!=null&&rot.høyre==null){
-            while(p.venstre!=null){
-            q=q.venstre;
-            utskrift+=", " + q.verdi;
-            }
-        }
-              
-              utskrift+="]";
-              tabell[i]=utskrift;             
-          } 
-      }
-
-      return tabell;
+      return path;
   }
   
     int countLeaves(Node node){
